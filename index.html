@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,55 +8,116 @@
     <title>TINKUCOMICS | Tienda de Cómics</title>
 
     <style>
+        /* ==========================================================
+           1. VARIABLES Y RESET
+           ========================================================== */
+        :root {
+            --rojo: #e50914;
+            --rojo-oscuro: #b8000b;
+            --fondo: #111;
+            --fondo-2: #1b1b1b;
+            --superficie: #202020;
+            --superficie-2: #252525;
+            --texto: #fff;
+            --texto-suave: #ccc;
+            --curva: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --rapido: 0.4s var(--curva);
+            --medio: 0.6s var(--curva);
+            --lento: 0.9s var(--curva);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #111;
-            color: white;
+            background-color: var(--fondo);
+            color: var(--texto);
         }
 
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* Foco visible para quien navega con teclado */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--rojo);
+            outline-offset: 3px;
+        }
+
+        /* ==========================================================
+           2. CABECERA Y NAVEGACIÓN
+           ========================================================== */
         header {
             background-color: #000;
             padding: 20px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid #e50914;
+            border-bottom: 3px solid var(--rojo);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .logo {
-            color: #e50914;
+            color: var(--rojo);
             font-size: 28px;
             font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        nav a {
-            color: white;
+        header nav a {
+            position: relative;
+            color: var(--texto);
             text-decoration: none;
             margin-left: 20px;
+            padding: 4px 0;
             font-weight: bold;
-            transition: 0.3s;
+            transition: color var(--rapido);
         }
 
-        nav a:hover {
-            color: #e50914;
+        /* Subrayado que crece desde la izquierda */
+        header nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--rojo);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--medio);
         }
 
+        header nav a:hover,
+        header nav a:focus-visible {
+            color: var(--rojo);
+        }
+
+        header nav a:hover::after,
+        header nav a:focus-visible::after {
+            transform: scaleX(1);
+        }
+
+        /* ==========================================================
+           3. INICIO (HERO)
+           ========================================================== */
         #inicio {
             min-height: 550px;
-            background: linear-gradient(
-                rgba(0,0,0,0.65),
-                rgba(0,0,0,0.8)
-            );
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.8));
             display: flex;
             align-items: center;
             justify-content: space-around;
@@ -66,6 +127,7 @@
 
         .inicio-texto {
             max-width: 550px;
+            animation: subir 1.1s var(--curva) backwards;
         }
 
         .inicio-texto h1 {
@@ -74,7 +136,7 @@
         }
 
         .inicio-texto h1 span {
-            color: #e50914;
+            color: var(--rojo);
         }
 
         .inicio-texto p {
@@ -84,47 +146,49 @@
             margin-bottom: 25px;
         }
 
+        .imagen-principal {
+            width: 420px;
+            height: 350px;
+            border: 2px solid var(--rojo);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(229, 9, 20, 0.25);
+            animation: subir 1.1s var(--curva) 0.25s backwards;
+        }
+
+        /* ==========================================================
+           4. BOTONES
+           ========================================================== */
         .boton {
             display: inline-block;
-            background: #e50914;
-            color: white;
+            background: var(--rojo);
+            color: var(--texto);
             padding: 14px 25px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            transition: 0.3s;
+            transition: background var(--rapido), color var(--rapido),
+                transform var(--rapido), box-shadow var(--rapido);
         }
 
         .boton:hover {
-            background: white;
-            color: #e50914;
+            background: var(--texto);
+            color: var(--rojo);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(229, 9, 20, 0.35);
         }
 
-        .imagen {
-            background: #333;
-            border: 2px dashed #e50914;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ccc;
-            text-align: center;
-            padding: 15px;
-            overflow: hidden;
+        .boton:active {
+            transform: translateY(0);
+            box-shadow: none;
         }
 
-        .imagen img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .imagen-principal {
-            width: 420px;
-            height: 350px;
-        }
-
+        /* ==========================================================
+           5. SECCIONES, TÍTULOS E IMÁGENES
+           ========================================================== */
         section {
             padding: 75px 8%;
+            scroll-margin-top: 80px;
+            /* evita que la cabecera tape el título al navegar */
         }
 
         .titulo {
@@ -134,7 +198,7 @@
         }
 
         .titulo span {
-            color: #e50914;
+            color: var(--rojo);
         }
 
         .descripcion {
@@ -143,8 +207,30 @@
             margin-bottom: 40px;
         }
 
+        .imagen {
+            background: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--lento);
+        }
+
+        /* ==========================================================
+           6. NOVEDADES Y CATÁLOGO (tarjetas)
+           ========================================================== */
         .novedades {
-            background: #1b1b1b;
+            background: var(--fondo-2);
+        }
+
+        #catalogo {
+            background: var(--fondo);
         }
 
         .tarjetas {
@@ -153,20 +239,30 @@
             gap: 25px;
         }
 
-        .tarjeta {
-            background: #252525;
+        .tarjeta,
+        .categoria {
             border-radius: 8px;
             overflow: hidden;
-            transition: 0.3s;
-            border-bottom: 3px solid #e50914;
+            transition: transform var(--medio), box-shadow var(--medio),
+                border-color var(--medio);
         }
 
-        .tarjeta:hover {
-            transform: translateY(-8px);
+        .tarjeta {
+            background: var(--superficie-2);
+            border-bottom: 3px solid var(--rojo);
+        }
+
+        .categoria {
+            background: var(--superficie);
+            border-bottom: 3px solid transparent;
         }
 
         .tarjeta .imagen {
             height: 230px;
+        }
+
+        .categoria .imagen {
+            height: 250px;
         }
 
         .tarjeta-contenido {
@@ -174,37 +270,34 @@
         }
 
         .tarjeta h3 {
-            color: #e50914;
+            color: var(--rojo);
             margin-bottom: 10px;
         }
 
         .tarjeta p {
-            color: #ccc;
+            color: var(--texto-suave);
             line-height: 1.5;
-        }
-
-        #catalogo {
-            background: #111;
-        }
-
-        .categoria {
-            background: #202020;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .categoria .imagen {
-            height: 250px;
         }
 
         .categoria h3 {
             text-align: center;
             padding: 20px;
-            color: white;
+            color: var(--texto);
+            transition: color var(--rapido);
         }
 
+        /* Mapa dentro de "Sobre nosotros" */
+        .categoria>img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ==========================================================
+           7. SOBRE NOSOTROS
+           ========================================================== */
         #ubicacion {
-            background: #1b1b1b;
+            background: var(--fondo-2);
         }
 
         .nosotros-contenido {
@@ -215,31 +308,35 @@
         }
 
         .nosotros-texto h3 {
-            color: #e50914;
+            color: var(--rojo);
             font-size: 25px;
             margin-bottom: 15px;
         }
 
         .nosotros-texto p {
-            color: #ccc;
+            color: var(--texto-suave);
             line-height: 1.8;
             margin-bottom: 15px;
         }
 
         .ubicacion-caja {
-            background: #252525;
+            background: var(--superficie-2);
             padding: 25px;
-            border-left: 4px solid #e50914;
+            border-left: 4px solid var(--rojo);
             margin-top: 20px;
+            transition: transform var(--medio), box-shadow var(--medio);
         }
 
         .ubicacion-caja h3 {
-            color: #e50914;
+            color: var(--rojo);
             margin-bottom: 15px;
         }
 
+        /* ==========================================================
+           8. CONTACTO Y FORMULARIO
+           ========================================================== */
         #contacto {
-            background: #111;
+            background: var(--fondo);
         }
 
         .contacto-contenido {
@@ -248,30 +345,28 @@
             gap: 40px;
         }
 
-        .informacion {
-            background: #202020;
+        .informacion,
+        .formulario {
+            background: var(--superficie);
             padding: 30px;
             border-radius: 8px;
-            border-top: 4px solid #e50914;
+        }
+
+        .informacion {
+            border-top: 4px solid var(--rojo);
         }
 
         .informacion h3,
         .formulario h3 {
             font-size: 25px;
-            color: #e50914;
+            color: var(--rojo);
             margin-bottom: 20px;
         }
 
         .informacion p {
             margin-bottom: 18px;
-            color: #ccc;
+            color: var(--texto-suave);
             line-height: 1.6;
-        }
-
-        .formulario {
-            background: #202020;
-            padding: 30px;
-            border-radius: 8px;
         }
 
         .formulario input,
@@ -282,8 +377,29 @@
             background: #333;
             border: 1px solid #555;
             border-radius: 5px;
-            color: white;
+            color: var(--texto);
+            font-family: inherit;
             font-size: 15px;
+            transition: border-color var(--rapido), box-shadow var(--rapido),
+                background var(--rapido);
+        }
+
+        .formulario input::placeholder,
+        .formulario textarea::placeholder {
+            color: #999;
+        }
+
+        .formulario input:hover,
+        .formulario textarea:hover {
+            border-color: #888;
+        }
+
+        .formulario input:focus,
+        .formulario textarea:focus {
+            outline: none;
+            background: #3a3a3a;
+            border-color: var(--rojo);
+            box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.25);
         }
 
         .formulario textarea {
@@ -292,8 +408,8 @@
         }
 
         .formulario button {
-            background: #e50914;
-            color: white;
+            background: var(--rojo);
+            color: var(--texto);
             padding: 14px;
             border: none;
             border-radius: 5px;
@@ -301,38 +417,133 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background var(--rapido), transform var(--rapido),
+                box-shadow var(--rapido);
         }
 
         .formulario button:hover {
-            background: #b8000b;
+            background: var(--rojo-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
         }
 
+        .formulario button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* ==========================================================
+           9. FOOTER Y REDES SOCIALES
+           ========================================================== */
         footer {
             background: #000;
             text-align: center;
             padding: 25px;
-            border-top: 3px solid #e50914;
+            border-top: 3px solid var(--rojo);
             color: #aaa;
         }
 
         footer span {
-            color: #e50914;
+            color: var(--rojo);
         }
-		
+
+        .redes-sociales {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .redes-sociales a {
+            display: inline-flex;
+            color: var(--texto-suave);
+            transition: color var(--rapido), transform var(--rapido);
+        }
+
+        .redes-sociales svg {
+            width: 28px;
+            height: 28px;
+            display: block;
+        }
+
+        /* ==========================================================
+           10. HOVERS (solo en dispositivos con ratón)
+           ========================================================== */
+        @media (hover: hover) {
+
+            .logo {
+                transition: transform var(--rapido);
+            }
+
+            .logo:hover {
+                transform: scale(1.04);
+            }
+
+            .tarjeta:hover,
+            .categoria:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
+            }
+
+            .categoria:hover {
+                border-bottom-color: var(--rojo);
+            }
+
+            .categoria:hover h3 {
+                color: var(--rojo);
+            }
+
+            /* Zoom suave de la imagen dentro de su marco */
+            .tarjeta:hover .imagen img,
+            .categoria:hover .imagen img {
+                transform: scale(1.08);
+            }
+
+            .ubicacion-caja:hover {
+                transform: translateX(6px);
+                box-shadow: -6px 0 18px rgba(229, 9, 20, 0.15);
+            }
+
+            .redes-sociales a:hover {
+                color: var(--rojo);
+                transform: translateY(-4px) scale(1.1);
+            }
+        }
+
+        /* ==========================================================
+           11. ANIMACIONES
+           ========================================================== */
+        /* "backwards": al terminar, los hovers siguen funcionando */
+        @keyframes subir {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================================
+           12. RESPONSIVE
+           ========================================================== */
         @media (max-width: 850px) {
             header {
                 flex-direction: column;
                 gap: 20px;
             }
 
-            nav {
+            header nav {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 12px;
             }
 
-            nav a {
+            header nav a {
                 margin: 0;
             }
 
@@ -368,7 +579,6 @@
                 font-size: 28px;
             }
         }
-
     </style>
 </head>
 
@@ -403,7 +613,9 @@
             </a>
         </div>
 
-		<img src="./src/1.jpg" alt="nuestra tienda">
+        <div class="imagen imagen-principal">
+            <img src="./src/1.jpg" alt="Nuestra tienda">
+        </div>
     </section>
 
 
@@ -419,7 +631,7 @@
 
             <div class="tarjeta">
                 <div class="imagen">
-                    <img src="./src/ultimosLanzamientos.webp">
+                    <img src="./src/ultimosLanzamientos.webp" alt="Últimos lanzamientos" loading="lazy">
                 </div>
                 <div class="tarjeta-contenido">
                     <h3>Últimos lanzamientos</h3>
@@ -432,7 +644,7 @@
 
             <div class="tarjeta">
                 <div class="imagen">
-                    <img src="./src/MasPopulares.webp">
+                    <img src="./src/MasPopulares.webp" alt="Los más populares" loading="lazy">
                 </div>
                 <div class="tarjeta-contenido">
                     <h3>Los más populares</h3>
@@ -445,7 +657,7 @@
 
             <div class="tarjeta">
                 <div class="imagen">
-                    <img src="./src/especial.jpg">
+                    <img src="./src/especial.jpg" alt="Ediciones especiales" loading="lazy">
                 </div>
                 <div class="tarjeta-contenido">
                     <h3>Ediciones especiales</h3>
@@ -471,42 +683,42 @@
 
             <div class="categoria">
                 <div class="imagen">
-                    <img src="./src/marvel.jpg">
+                    <img src="./src/marvel.jpg" alt="Cómics de superhéroes" loading="lazy">
                 </div>
                 <h3>Superhéroes</h3>
             </div>
 
             <div class="categoria">
                 <div class="imagen">
-					<img src="./src/dc.jpg">
+                    <img src="./src/dc.jpg" alt="DC Comics" loading="lazy">
                 </div>
                 <h3>DC Comics</h3>
             </div>
 
             <div class="categoria">
                 <div class="imagen">
-                    <img src="./src/manga.avif">
+                    <img src="./src/manga.avif" alt="Manga" loading="lazy">
                 </div>
                 <h3>Manga</h3>
             </div>
 
             <div class="categoria">
                 <div class="imagen">
-                    <img src="./src/basico.webp">
+                    <img src="./src/basico.webp" alt="Cómics clásicos" loading="lazy">
                 </div>
                 <h3>Cómics clásicos</h3>
             </div>
 
             <div class="categoria">
                 <div class="imagen">
-                    <img src="./src/novelas.jpg">
+                    <img src="./src/novelas.jpg" alt="Novelas gráficas" loading="lazy">
                 </div>
                 <h3>Novelas gráficas</h3>
             </div>
 
             <div class="categoria">
                 <div class="imagen">
-                    <img src="./src/2.jpg">
+                    <img src="./src/2.jpg" alt="Coleccionismo" loading="lazy">
                 </div>
                 <h3>Coleccionismo</h3>
             </div>
@@ -568,7 +780,7 @@
             </div>
 
             <div class="categoria">
-                <img src="./src/mapa.png">
+                <img src="./src/mapa.png" alt="Mapa de la ubicación de la tienda" loading="lazy">
             </div>
 
         </div>
@@ -600,7 +812,7 @@
 
                 <p>
                     <strong>Teléfono:</strong>
-                    949 88 77 65 
+                    949 88 77 65
                 </p>
 
                 <p>
@@ -632,18 +844,13 @@
 
                 <form action="#" method="post">
 
-                    <input type="text"
-                    placeholder="Tu nombre" required>
+                    <input type="text" placeholder="Tu nombre" aria-label="Tu nombre" required>
 
-                    <input type="email"
-                    placeholder="Tu correo electrónico" required>
+                    <input type="email" placeholder="Tu correo electrónico" aria-label="Tu correo electrónico" required>
 
-                    <input type="text"
-                    placeholder="Asunto">
+                    <input type="text" placeholder="Asunto" aria-label="Asunto">
 
-                    <textarea
-                    placeholder="Escribe tu mensaje..."
-                    required></textarea>
+                    <textarea placeholder="Escribe tu mensaje..." aria-label="Tu mensaje" required></textarea>
 
                     <button type="submit">
                         ENVIAR MENSAJE
@@ -659,15 +866,32 @@
 
 
     <footer>
-
-        <p>
-            © 2026 <span>TINKUCOMICS</span> -
-            Todos los derechos reservados.
-        </p>
-
+        <nav class="redes-sociales" aria-label="Redes sociales">
+            <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
+                    <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor"
+                        stroke-width="2" />
+                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                </svg>
+            </a>
+            <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
+                    <path fill="currentColor"
+                        d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.3v3h2.8v8h3.4Z" />
+                </svg>
+            </a>
+            <a href="https://www.tiktok.com/" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
+                    <path fill="currentColor"
+                        d="M19.6 8.2a7.1 7.1 0 0 1-4.3-1.4v7.1a5.8 5.8 0 1 1-5-5.7v3.6a2.3 2.3 0 1 0 1.5 2.1V3h3.5c.2 2 1.8 3.6 4.3 3.8v1.4Z" />
+                </svg>
+            </a>
+        </nav>
+        <p>© 2026 <span>TINKUCOMICS</span> - Todos los derechos reservados.</p>
         <p>El universo del cómic está en tus manos.</p>
-
     </footer>
 
 </body>
+
 </html>
