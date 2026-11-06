@@ -1,13 +1,673 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="./src/comicscreen-svgrepo-com.svg" />
-    <title>TinkuComics</title>
+    <title>TINKUCOMICS | Tienda de Cómics</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+        }
+
+        header {
+            background-color: #000;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #e50914;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            color: #e50914;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #e50914;
+        }
+
+        #inicio {
+            min-height: 550px;
+            background: linear-gradient(
+                rgba(0,0,0,0.65),
+                rgba(0,0,0,0.8)
+            );
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 60px 8%;
+            gap: 30px;
+        }
+
+        .inicio-texto {
+            max-width: 550px;
+        }
+
+        .inicio-texto h1 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .inicio-texto h1 span {
+            color: #e50914;
+        }
+
+        .inicio-texto p {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .boton {
+            display: inline-block;
+            background: #e50914;
+            color: white;
+            padding: 14px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .boton:hover {
+            background: white;
+            color: #e50914;
+        }
+
+        .imagen {
+            background: #333;
+            border: 2px dashed #e50914;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ccc;
+            text-align: center;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .imagen-principal {
+            width: 420px;
+            height: 350px;
+        }
+
+        section {
+            padding: 75px 8%;
+        }
+
+        .titulo {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .titulo span {
+            color: #e50914;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #bbb;
+            margin-bottom: 40px;
+        }
+
+        .novedades {
+            background: #1b1b1b;
+        }
+
+        .tarjetas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .tarjeta {
+            background: #252525;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+            border-bottom: 3px solid #e50914;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-8px);
+        }
+
+        .tarjeta .imagen {
+            height: 230px;
+        }
+
+        .tarjeta-contenido {
+            padding: 20px;
+        }
+
+        .tarjeta h3 {
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+
+        .tarjeta p {
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        #catalogo {
+            background: #111;
+        }
+
+        .categoria {
+            background: #202020;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .categoria .imagen {
+            height: 250px;
+        }
+
+        .categoria h3 {
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+
+        #ubicacion {
+            background: #1b1b1b;
+        }
+
+        .nosotros-contenido {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nosotros-texto h3 {
+            color: #e50914;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .nosotros-texto p {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .ubicacion-caja {
+            background: #252525;
+            padding: 25px;
+            border-left: 4px solid #e50914;
+            margin-top: 20px;
+        }
+
+        .ubicacion-caja h3 {
+            color: #e50914;
+            margin-bottom: 15px;
+        }
+
+        #contacto {
+            background: #111;
+        }
+
+        .contacto-contenido {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .informacion {
+            background: #202020;
+            padding: 30px;
+            border-radius: 8px;
+            border-top: 4px solid #e50914;
+        }
+
+        .informacion h3,
+        .formulario h3 {
+            font-size: 25px;
+            color: #e50914;
+            margin-bottom: 20px;
+        }
+
+        .informacion p {
+            margin-bottom: 18px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .formulario {
+            background: #202020;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .formulario input,
+        .formulario textarea {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 15px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: white;
+            font-size: 15px;
+        }
+
+        .formulario textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .formulario button {
+            background: #e50914;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .formulario button:hover {
+            background: #b8000b;
+        }
+
+        footer {
+            background: #000;
+            text-align: center;
+            padding: 25px;
+            border-top: 3px solid #e50914;
+            color: #aaa;
+        }
+
+        footer span {
+            color: #e50914;
+        }
+		
+        @media (max-width: 850px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            nav a {
+                margin: 0;
+            }
+
+            #inicio {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .imagen-principal {
+                width: 100%;
+            }
+
+            .tarjetas {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nosotros-contenido,
+            .contacto-contenido {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .tarjetas {
+                grid-template-columns: 1fr;
+            }
+
+            .inicio-texto h1 {
+                font-size: 38px;
+            }
+
+            .titulo {
+                font-size: 28px;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
-    <p>Hola
-    </p>
+
+    <header>
+        <div class="logo">TINKUCOMICS</div>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#catalogo">Catálogo</a>
+            <a href="#ubicacion">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <section id="inicio">
+
+        <div class="inicio-texto">
+            <h1>BIENVENIDO A <span>TINKUCOMICS</span></h1>
+
+            <p>
+                ¡El universo del cómic está aquí!
+                Descubre historias increíbles, personajes legendarios
+                y aventuras que nunca terminan.
+                Encuentra tus cómics favoritos y descubre nuevas historias
+                con nosotros.
+            </p>
+
+            <a href="#catalogo" class="boton">
+                EXPLORAR CATÁLOGO
+            </a>
+        </div>
+
+		<img src="./src/1.jpg" alt="nuestra tienda">
+    </section>
+
+
+    <section class="novedades">
+
+        <h2 class="titulo">NUESTRAS <span>NOVEDADES</span></h2>
+
+        <p class="descripcion">
+            Descubre algunos de los cómics más interesantes de nuestra tienda.
+        </p>
+
+        <div class="tarjetas">
+
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="./src/ultimosLanzamientos.webp">
+                </div>
+                <div class="tarjeta-contenido">
+                    <h3>Últimos lanzamientos</h3>
+                    <p>
+                        Descubre las últimas publicaciones y las
+                        novedades que llegan a nuestra tienda.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="./src/MasPopulares.webp">
+                </div>
+                <div class="tarjeta-contenido">
+                    <h3>Los más populares</h3>
+                    <p>
+                        Encuentra los cómics más buscados y las
+                        historias favoritas de nuestros clientes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="./src/especial.jpg">
+                </div>
+                <div class="tarjeta-contenido">
+                    <h3>Ediciones especiales</h3>
+                    <p>
+                        Explora ediciones especiales, colecciones
+                        y cómics para auténticos coleccionistas.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="catalogo">
+
+        <h2 class="titulo">NUESTRO <span>CATÁLOGO</span></h2>
+
+        <p class="descripcion">
+            Tenemos cómics para todos los gustos y edades.
+        </p>
+
+        <div class="tarjetas">
+
+            <div class="categoria">
+                <div class="imagen">
+                    <img src="./src/marvel.jpg">
+                </div>
+                <h3>Superhéroes</h3>
+            </div>
+
+            <div class="categoria">
+                <div class="imagen">
+					<img src="./src/dc.jpg">
+                </div>
+                <h3>DC Comics</h3>
+            </div>
+
+            <div class="categoria">
+                <div class="imagen">
+                    <img src="./src/manga.avif">
+                </div>
+                <h3>Manga</h3>
+            </div>
+
+            <div class="categoria">
+                <div class="imagen">
+                    <img src="./src/basico.webp">
+                </div>
+                <h3>Cómics clásicos</h3>
+            </div>
+
+            <div class="categoria">
+                <div class="imagen">
+                    <img src="./src/novelas.jpg">
+                </div>
+                <h3>Novelas gráficas</h3>
+            </div>
+
+            <div class="categoria">
+                <div class="imagen">
+                    <img src="./src/2.jpg">
+                </div>
+                <h3>Coleccionismo</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="ubicacion">
+
+        <h2 class="titulo">SOBRE <span>NOSOTROS</span></h2>
+
+        <p class="descripcion">
+            Conoce nuestra historia y dónde puedes encontrarnos.
+        </p>
+
+        <div class="nosotros-contenido">
+
+            <div class="nosotros-texto">
+
+                <h3>¿Quiénes somos?</h3>
+
+                <p>
+                    Tinkucomics es una tienda especializada en el mundo
+                    del cómic. Nacimos con la idea de crear un espacio
+                    donde los amantes de las historias ilustradas puedan
+                    encontrar sus personajes y colecciones favoritas.
+                </p>
+
+                <p>
+                    Ofrecemos una gran variedad de cómics de diferentes
+                    editoriales, géneros y estilos. Nuestro objetivo es
+                    acercar el mundo del cómic a todo tipo de lectores.
+                </p>
+
+                <p>
+                    Para nosotros, cada cómic es una nueva aventura
+                    que merece ser descubierta.
+                </p>
+
+                <div class="ubicacion-caja">
+                    <h3>¿Dónde estamos?</h3>
+
+                    <p>
+                        <strong>Ciudad:</strong> Guadalajara
+                    </p>
+
+                    <p>
+                        <strong>Dirección:</strong> Zona de Francisco Aritio,
+                        Guadalajara.
+                    </p>
+
+                    <p>
+                        <strong>Horario:</strong> Lunes a sábado,
+                        de 10:00-14:00 y 16:00-20:00.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="categoria">
+                <img src="./src/mapa.png">
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="contacto">
+
+        <h2 class="titulo">CONTACTA CON <span>NOSOTROS</span></h2>
+
+        <p class="descripcion">
+            ¿Tienes alguna duda? ¡Estaremos encantados de ayudarte!
+        </p>
+
+        <div class="contacto-contenido">
+
+            <div class="informacion">
+
+                <h3>Información de Tinkucomics</h3>
+
+                <p>
+                    <strong>Empresa:</strong> Tinkucomics S.L.
+                </p>
+
+                <p>
+                    <strong>Correo:</strong>
+                    info@tinkucomics.com
+                </p>
+
+                <p>
+                    <strong>Teléfono:</strong>
+                    949 88 77 65 
+                </p>
+
+                <p>
+                    <strong>Dirección:</strong>
+                    Francisco Aritio, Guadalajara.
+                </p>
+
+                <p>
+                    <strong>Horario de atención:</strong>
+                    Lunes a sábado de 10:00-14:00 y 16:00-20:00.
+                </p>
+
+                <p>
+                    <strong>Redes sociales:</strong>
+                    Instagram: @tinkucomics
+                </p>
+
+                <p>
+                    Nuestro equipo está disponible para resolver
+                    tus dudas, ayudarte a encontrar un cómic
+                    y ofrecerte información sobre nuestros productos.
+                </p>
+
+            </div>
+
+            <div class="formulario">
+
+                <h3>Envíanos un mensaje</h3>
+
+                <form action="#" method="post">
+
+                    <input type="text"
+                    placeholder="Tu nombre" required>
+
+                    <input type="email"
+                    placeholder="Tu correo electrónico" required>
+
+                    <input type="text"
+                    placeholder="Asunto">
+
+                    <textarea
+                    placeholder="Escribe tu mensaje..."
+                    required></textarea>
+
+                    <button type="submit">
+                        ENVIAR MENSAJE
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 <span>TINKUCOMICS</span> -
+            Todos los derechos reservados.
+        </p>
+
+        <p>El universo del cómic está en tus manos.</p>
+
+    </footer>
+
 </body>
 </html>
